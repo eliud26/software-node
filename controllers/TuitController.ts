@@ -44,6 +44,7 @@
 import {Request, Response, Express} from "express";
 import TuitDao from "../daos/tuitDao";
 import TuitControllerI from "../interfaces/TuitController";
+import Tuit from '../models/Tuit';
 
 export default class TuitController implements TuitControllerI {
     app: Express;
@@ -59,20 +60,20 @@ export default class TuitController implements TuitControllerI {
     }
     findAllTuits = (req: Request, res: Response) =>
         this.tuitDao.findAllTuits()
-            .then(tuits => res.json(tuits));
+            .then((tuits: Tuit[])=> res.json(tuits));
     findTuitById = (req: Request, res: Response) =>
         this.tuitDao.findTuitById(req.params.tid)
-            .then(tuit => res.json(tuit));
+            .then((tuit: Tuit) => res.json(tuit));
     createTuit = (req: Request, res: Response) =>
         this.tuitDao.createTuit(req.body)
-            .then(user => res.json(user));
+            .then((tuit: Tuit) => res.json(tuit));
     deleteTuit = (req: Request, res: Response) =>
         this.tuitDao.deleteTuit(req.params.userid)
-            .then(status => res.json(status));
+            .then((status: any) => res.json(status));
     updateTuit = (req: Request, res: Response) =>
         this.tuitDao.updateTuit(req.params.userid, req.body)
-            .then(status => res.json(status));
+            .then((status: any) => res.json(status));
     findTuitsByUser = (req: Request, res: Response) =>
         this.tuitDao.findTuitsByUser(req.params.tid)
-            .then(tuit => res.json(tuit));
+            .then((tuit: Tuit[]) => res.json(tuit));
 }

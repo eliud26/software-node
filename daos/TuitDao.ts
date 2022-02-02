@@ -34,7 +34,7 @@ export default class TuitDao implements TuitDaoI {
     async findAllTuits(): Promise<Tuit[]> {
         return await TuitModel.find();
     }
-    async findTuitById(tid: string): Promise<Tuit> {
+    async findTuitById(tid: string): Promise<any> {
         return await TuitModel.findById(tid);
     }
     async createTuit(tid: Tuit): Promise<any> {
