@@ -1,4 +1,3 @@
-
 import Tuit from "../models/Tuit";
 import TuitModel from "../mongoose/TuitModel";
 import TuitDaoI from "../interfaces/TuitDao";
@@ -8,10 +7,12 @@ export default class TuitDao implements TuitDaoI {
         return await TuitModel.find();
     }
     async findTuitById(tid: string): Promise<any> {
-        return await TuitModel.findById(tid);
+        return await TuitModel.findById(tid)
+            .populate("postedBy")
+            .exec();
     }
-    async createTuit(tid: Tuit): Promise<any> {
-        return await TuitModel.create(tid);
+    async createTuit(tid: Tuit, uid: string): Promise<any> {
+        return await TuitModel.create({...tid, postedBy: uid});
     }
     async deleteTuit(tid: string):  Promise<any> {
         return await TuitModel.deleteOne({_id: tid});
