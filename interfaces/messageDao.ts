@@ -8,6 +8,6 @@ export default interface MessageDao {
     findMessagesByUser(uid: string): Promise<Message[]>;
     findMessagesToUser(tid: string): Promise<Message[]>;
     deleteMessage(uid: string, ruid: string): Promise<any>;
-    updateMessage(uid: string, message: Message): Promise<any>;
+    updateMessage(uid: string, ruid: string, message: Message): Promise<any>;
     findAllMessages(): Promise<Message[]>;
 }

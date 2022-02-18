@@ -3,7 +3,7 @@
  */
 import {Express, Request, Response} from "express";
 import BookmarkDao from "../daos/BookmarkDao";
-import BookmarkControllerI from "../interfaces/bookmarkController";
+import BookmarkControllerI from "../interfaces/bookMarkController";
 
 /**
  * @class BookmarkController Implements RESTful Web service API for bookmark resource.
@@ -25,11 +25,11 @@ export default class BookmarkController implements BookmarkControllerI {
     constructor(app: Express, bookmarkDao: BookmarkDao) {
         this.app = app;
         this.bookmarkDao = bookmarkDao;
-        this.app.post("/users/:uid/tuits/:tid", this.createBookmark);
-        this.app.delete("/users/:uid/tuits/:tid", this.deleteBookmark);
-        this.app.get("/users/:uid/tuits", this.findBookmarkByUser);
-        this.app.get("/users/tuits/", this.findAllBookmark);
-        this.app.get("/users/:uid/tuits/:tid", this.findOneBookmark);
+        this.app.post("/users/:uid/bookmark/tuits/:tid", this.createBookmark);
+        this.app.delete("/users/:uid/unbookmark/tuits/:tid", this.deleteBookmark);
+        this.app.get("/users/:uid/bookmark/tuits", this.findBookmarkByUser);
+        this.app.get("/bookmark", this.findAllBookmark);
+        this.app.get("/users/:uid/bookmark/tuits/:tid", this.findOneBookmark);
     }
 
     /**
@@ -40,7 +40,7 @@ export default class BookmarkController implements BookmarkControllerI {
      * as JSON containing the new bookmark that was inserted in the database
      */
     createBookmark = (req: Request, res: Response) =>
-        this.bookmarkDao.createBookmark(req.params.uid, req.params.uid)
+        this.bookmarkDao.createBookmark(req.params.uid, req.params.tid)
             .then(bookmark => res.json(bookmark));
     /**
      * Deletes a bookmark object that contains the bookmark tuit

@@ -1,7 +1,8 @@
 import User from "./User";
 
 export default interface Message {
-    message: String,
+    message: string,
     sender: User,
-    receiver: User
+    receiver: User,
+    sentOn?: Date
 };

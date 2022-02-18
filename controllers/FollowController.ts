@@ -28,7 +28,7 @@ export default class FollowController implements FollowControllerI {
         this.followDao = followDao;
         this.app.post("/users/:uid/follow/users/:fuid", this.createFollow);
         this.app.delete("/users/:uid/unfollows/user/:fuid", this.deleteFollow);
-        this.app.get("/users/follow", this.findAllFollow);
+        this.app.get("/follows", this.findAllFollow);
         this.app.get("/users/:uid/followers", this.findAllUsersFollowingThisUser);
         this.app.get("/users/:uid/following", this.findAllUsersThisUserFollows);
         this.app.get("/users/:uid/follow/users/:fuid", this.findOneFollow);

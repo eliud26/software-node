@@ -29,8 +29,8 @@ export default class MessageController implements MessageControllerI {
         this.app.delete("/users/:uid/message/users/:ruid", this.deleteMessage);
         this.app.get("/users/:uid/user/messages", this.findMessagesByUser);
         this.app.get("/users/:uid/messages/user", this.findMessagesToUser);
-        this.app.get("/users/messages", this.findAllMessages);
-        this.app.put("/users/:uid/message/users/:fuid", this.updateMessage);
+        this.app.get("/messages", this.findAllMessages);
+        this.app.put("/users/:uid/update/message/users/:ruid", this.updateMessage);
     }
 
     /**
@@ -41,7 +41,7 @@ export default class MessageController implements MessageControllerI {
      * as JSON containing the new bookmark that was inserted in the database
      */
     createMessage = (req: Request, res: Response) =>
-        this.messageDao.createMessage(req.params.uid, req.params.ruid, req.body)
+        this.messageDao.createMessage(req.params.uid, req.params.ruid, req.body.message)
             .then(message => res.json(message));
     /**
      * Deletes a bookmark object that contains the bookmark tuit
@@ -74,7 +74,7 @@ export default class MessageController implements MessageControllerI {
      */
     findAllMessages = (req: Request, res: Response) =>
         this.messageDao.findAllMessages()
-            .then(message => res.json(message))
+            .then(message => res.json(message));
 
     /**
      *
@@ -82,7 +82,7 @@ export default class MessageController implements MessageControllerI {
      * @param res
      */
     updateMessage = (req: Request, res: Response) =>
-        this.messageDao.updateMessage(req.params.uid, req.body)
-            .then(status => res.json(status))
+        this.messageDao.updateMessage(req.params.uid, req.params.ruid, req.body)
+            .then(status => res.json(status));
 
 };

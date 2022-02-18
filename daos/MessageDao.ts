@@ -2,7 +2,7 @@
  * @file Implements DAO managing data storage of bookmarks. Uses mongoose BookmarkModel
  * to integrate with MongoDB
  */
-import MessageDaoI from "../interfaces/MessageDao";
+import MessageDaoI from "../interfaces/messageDao";
 import MessageModel from "../mongoose/MessageModel";
 import Message from "../models/Message";
 
@@ -28,12 +28,15 @@ export default class MessageDao implements MessageDaoI {
             .populate("sender")
             .exec();
 
-    updateMessage = async (uid: string, message: Message): Promise<any> =>
-        MessageModel.updateOne({sender: uid}, {$set: message});
+    updateMessage = async (uid: string, ruid: string, message: Message): Promise<any> =>
+        MessageModel.updateOne({sender: uid, receiver: ruid}, {$set: message});
 
 
     findAllMessages = async (): Promise<Message[]> =>
-        MessageModel.find();
+        MessageModel.find()
+            .populate("sender")
+            .populate("receiver")
+            .exec();
 
 }
 
