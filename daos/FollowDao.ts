@@ -15,13 +15,13 @@ export default class FollowDao implements FollowDaoI {
            .exec();
 
     findAllUsersFollowingThisUser = async (uid: string): Promise<Follow[]> =>
-        FollowModel.find({user: uid})
-            .populate("following")
+        FollowModel.find({following: uid})
+            .populate("user")
             .exec();
 
     findAllUsersThisUserFollows = async (uid: string): Promise<Follow[]> =>
-        FollowModel.find({following: uid})
-            .populate("user")
+        FollowModel.find({user: uid})
+            .populate("following")
             .exec();
 
     findOneFollow = async (uid: string, follow: string): Promise<any> =>
