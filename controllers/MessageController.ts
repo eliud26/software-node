@@ -35,51 +35,59 @@ export default class MessageController implements MessageControllerI {
 
     /**
      * Creates a bookmark object to be sent to database collection
-     * @param req represents request from client including body
+     * @param {Request} req represents request from client including body
      * containing the JSON object for the new bookmark to be inserted in the database
-     * @param res represents response to client, including the body formatted
+     * @param {Response} res represents response to client, including the body formatted
      * as JSON containing the new bookmark that was inserted in the database
      */
     createMessage = (req: Request, res: Response) =>
         this.messageDao.createMessage(req.params.uid, req.params.ruid, req.body.message)
             .then(message => res.json(message));
     /**
-     * Deletes a bookmark object that contains the bookmark tuit
-     * @param req re
-     * @param res
+     * Deletes a bookmark object that contains the bookmarked tuit
+     * @param {Request} req represents request from client including the
+     * path parameters uid and ruid representing the sender user and the receiver user
+     * primary's key
+     * @param {Response} res represents response to client, including status on
+     * whether deleting the message was successful or not
      */
     deleteMessage = (req: Request, res: Response) =>
         this.messageDao.deleteMessage(req.params.uid, req.params.ruid)
             .then(status => res.json(status));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all messages sent by a particular user
+     * @param {Request} req represents request from client including the path parameter uid
+     * representing the user's primary's key
+     * @param {Response} res represents response to client, including the body formatted as JSON containing
+     * the follow object
      */
     findMessagesByUser = (req: Request, res: Response) =>
         this.messageDao.findMessagesByUser(req.params.uid)
             .then(follows => res.json(follows));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all messages sent to a particular user
+     * @param {Request} req represents request from client including the path parameter uid
+     * representing the user's primary's key
+     * @param {Response} res represents response from client including the body formatted as JSON containing
+     * the message object
      */
     findMessagesToUser = (req: Request, res: Response) =>
         this.messageDao.findMessagesToUser(req.params.uid)
             .then(status => res.send(status));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all messages stored in the database collection
+     * @param {Request} req represents request from client
+     * @param res represents response from client including the body formatted as JSON containing the array of messages
      */
     findAllMessages = (req: Request, res: Response) =>
         this.messageDao.findAllMessages()
             .then(message => res.json(message));
 
     /**
-     *
-     * @param req
-     * @param res
+     * Updates a message stored in the database collection
+     * @param {Request} req represents request from client including the path parameters uid and ruid
+     * @param {Response} res represents response from client including status on whether update of message
+     * was successful or not
      */
     updateMessage = (req: Request, res: Response) =>
         this.messageDao.updateMessage(req.params.uid, req.params.ruid, req.body)

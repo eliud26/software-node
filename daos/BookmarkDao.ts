@@ -21,26 +21,37 @@ export default class BookmarkDao implements BookMarkDaoI {
         BookmarkModel.create({bookmarkedBy: uid, bookmarkedTuit: tid});
 
     /**
-     * Removes bookmark instance from the database.
+     * BookmarkModel to remove bookmark instance from the database.
      * @param {string} uid Primary key of user to be removed
      * @param {string} tid Primary key of tid to be removed
      * @returns Promise To be notified when bookmark instance is removed from the database
      */
     deleteBookmark = async (uid: string, tid: string): Promise<any> =>
         BookmarkModel.deleteOne({bookmarkedBy: uid, bookmarkedTuit: tid});
-
+    /**
+     * BookmarkModel to retrieve all bookmark documents from the bookmark collection
+     * @returns Promise to to be notified when the bookmarks are retrieve from database
+     */
     findAllBookmark = async (): Promise<Bookmark[]> =>
         BookmarkModel.find()
             .populate("bookmarkedBy")
             .populate("bookmarkedTuit")
             .exec();
-
+    /**
+     * BookmarkModel to retrieve all bookmarked tuits by a particular user from the bookmark collection
+     * @param {string} uid User's primary key
+     * @returns Promise to to be notified when the bookmarks are retrieve from database
+     */
     findBookmarkByUser = async (uid: string): Promise<Bookmark[]> =>
         BookmarkModel.find({bookmarkedBy: uid})
             .populate("bookmarkedBy")
             .populate("bookmarkedTuit")
             .exec();
-
+    /**
+     * BookmarkModel to retrieve one instance of a bookmark tuit giving a particular user and a particular tuit
+     * @param {string} uid User's primary key
+     * @param {string} tid Tuit's primary key
+     */
     findOneBookmark = async (uid: string, tid: string): Promise<any> =>
         BookmarkModel.findOne({bookmarkedBy: uid, bookmarkedTuit: tid})
             .populate("bookmarkedBy")

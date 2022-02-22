@@ -9,12 +9,12 @@ import FollowControllerI from "../interfaces/followController";
  * @class FollowController Implements RESTful Web service API for follow resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>POST /users/:uid/follow/users/:uid to create a new follow instance for a given user</li>
- *     <li>DELETE /users/:uid/unfollow/users/:uid to remove a particular tuit instance</li>
- *     <li>GET /users/follow to retrieve all the tuit instances</li>
+ *     <li>POST /users/:uid/follow/users/:fuid to create a new follow instance for a given user</li>
+ *     <li>DELETE /users/:uid/unfollow/users/:fuid to remove a particular tuit instance</li>
+ *     <li>GET /follows to retrieve all the tuit instances</li>
  *     <li>GET /users/:uid/followers to retrieve all of the followers of a particular user</li>
  *     <li>GET /users/:uid/following to retrieve all users this user is following</li>
- *     <li>GET /users/:uid/follow/users/:uid to retrieve on particular follower</li>
+ *     <li>GET /users/:uid/follow/users/:fuid to retrieve on particular follower</li>
  * </ul>
  * @property {FollowDao} followDao DAO implementing follow CRUD operations
  * @property {FollowController} followController controller implementing
@@ -35,10 +35,10 @@ export default class FollowController implements FollowControllerI {
     }
 
     /**
-     * Creates a follow object to be sent to database collection
-     * @param req represents request from clien including body
+     * Creates a follow object to be sent to the database collection
+     * @param req {Request} represents request from client including body
      * containing the JSON object for the new follow to be inserted in the database
-     * @param res represents response to client, including the body formatted
+     * @param res {Response} represents response to client, including the body formatted
      * as JSON containing the new follow that was inserted in the database
      */
     createFollow = (req: Request, res: Response) =>
@@ -46,40 +46,47 @@ export default class FollowController implements FollowControllerI {
             .then(follows => res.json(follows));
     /**
      * Deletes a follow object that contains the follower, following relation between two users
-     * @param req re
-     * @param res
+     * @param req {Request} req Represents request from client, including path
+     * parameters uid and fuid identifying the primary key of the users follow relation to be removed
+     * @param res {Response} res Represents response to client, including status
+     * on whether deleting the follow was successful or not
      */
     deleteFollow = (req: Request, res: Response) =>
         this.followDao.deleteFollow(req.params.uid, req.params.fuid)
             .then(status => res.json(status));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all follows from the database
      */
     findAllFollow = (req: Request, res: Response) =>
         this.followDao.findAllFollow()
             .then(follows => res.json(follows));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all users following this user from the database
+     * @param {Request} req Represents request from client, including the path
+     * parameter uid representing the user's primary's key
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the follow object
      */
     findAllUsersFollowingThisUser = (req: Request, res: Response) =>
         this.followDao.findAllUsersFollowingThisUser(req.params.uid)
             .then(follow => res.send(follow));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all this particular user follows from the database
+     * @param {Request} req Represents request from client including the path
+     * parameter uid representing the user's primary's key
+     * @param {Response} res Represents response to client including the
+     * body formatted as JSON arrasys containing the follow object
      */
     findAllUsersThisUserFollows = (req: Request, res: Response) =>
         this.followDao.findAllUsersThisUserFollows(req.params.uid)
             .then(follow => res.json(follow))
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all this particular user follows from the database
+     * @param {Request} req Represents request from client including the path
+     * parameter uid representing the user's primary's key and fuid
+     * representing the other user's primary's key
+     * @param {Response} res Represents response to client including the
+     * body formatted as JSON arrays containing the follow object
      */
     findOneFollow = (req: Request, res: Response) =>
         this.followDao.findOneFollow(req.params.uid, req.params.fuid)

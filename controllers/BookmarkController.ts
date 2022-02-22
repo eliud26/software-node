@@ -34,9 +34,9 @@ export default class BookmarkController implements BookmarkControllerI {
 
     /**
      * Creates a bookmark object to be sent to database collection
-     * @param req represents request from client including body
+     * @param req {Request} req represents request from client including body
      * containing the JSON object for the new bookmark to be inserted in the database
-     * @param res represents response to client, including the body formatted
+     * @param res {Response} res represents response to client, including the body formatted
      * as JSON containing the new bookmark that was inserted in the database
      */
     createBookmark = (req: Request, res: Response) =>
@@ -44,32 +44,37 @@ export default class BookmarkController implements BookmarkControllerI {
             .then(bookmark => res.json(bookmark));
     /**
      * Deletes a bookmark object that contains the bookmark tuit
-     * @param req re
-     * @param res
+     * @param req {Request} req Represents request from client, including path
+     * parameter tid identifying the primary key of the tuit to be removed
+     * @param res {Response} res Represents response to client, including status
+     * on whether deleting a bookmark was successful or not
      */
     deleteBookmark = (req: Request, res: Response) =>
         this.bookmarkDao.deleteBookmark(req.params.uid, req.params.tid)
             .then(status => res.json(status));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all the tuits bookmark by a particular user and returns an array of bookmarked tuits
+     * @param req {Request} req Represents request from client
+     * @param res {Response} res Represents response to client, including the body formatted as JSON arrays
+     * containing the bookmark objects
      */
     findBookmarkByUser = (req: Request, res: Response) =>
         this.bookmarkDao.findBookmarkByUser(req.params.uid)
             .then(bookmark => res.json(bookmark));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves all the bookmarked tuits stored in the bookmark collection from our database.
+     * @param req {Request} req Represents request from client
+     * @param res {Response} res Represents response to client, including the body formatted as JSON arrays
+     * containing the bookmark objects
      */
     findAllBookmark = (req: Request, res: Response) =>
         this.bookmarkDao.findAllBookmark()
             .then(bookmark => res.send(bookmark));
     /**
-     *
-     * @param req
-     * @param res
+     * Retrieves one instance of a bookmarked tuit stored in the bookmark collection from our database
+     * @param req {Request} req Represents request from client
+     * @param res {Response} res Represents response to client, including the body formatted as JSON arrays
+     * containing the bookmark objects
      */
     findOneBookmark = (req: Request, res: Response) =>
         this.bookmarkDao.findOneBookmark(req.params.uid, req.params.tid)
