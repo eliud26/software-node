@@ -31,7 +31,7 @@ export default class UserController implements UserControllerI {
         this.app.delete('/users/:userid', this.deleteUser);
         this.app.put('/users/:userid', this.updateUser);
     }
-    **
+    /**
      * Retrieves all users from the database and returns an array of users.
      * @param {Request} req Represents request from client
      * @param {Response} res Represents response to client, including the
