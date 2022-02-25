@@ -52,7 +52,7 @@ export default class MessageController implements MessageControllerI {
      * whether deleting the message was successful or not
      */
     deleteMessage = (req: Request, res: Response) =>
-        this.messageDao.deleteMessage(req.params.uid, req.params.ruid)
+        this.messageDao.deleteMessage(req.params.uid, req.params.ruid, req.params.mid)
             .then(status => res.json(status));
     /**
      * Retrieves all messages sent by a particular user
