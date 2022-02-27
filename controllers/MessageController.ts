@@ -26,7 +26,7 @@ export default class MessageController implements MessageControllerI {
         this.app = app;
         this.messageDao = messageDao;
         this.app.post("/users/:uid/message/users/:ruid", this.createMessage);
-        this.app.delete("/users/:uid/message/users/:ruid", this.deleteMessage);
+        this.app.delete("/users/:uid/message/:mid/users/:ruid", this.deleteMessage);
         this.app.get("/users/:uid/user/messages", this.findMessagesByUser);
         this.app.get("/users/:uid/messages/user", this.findMessagesToUser);
         this.app.get("/messages", this.findAllMessages);
@@ -52,7 +52,7 @@ export default class MessageController implements MessageControllerI {
      * whether deleting the message was successful or not
      */
     deleteMessage = (req: Request, res: Response) =>
-        this.messageDao.deleteMessage(req.params.uid, req.params.ruid)
+        this.messageDao.deleteMessage(req.params.uid, req.params.ruid, req.params.mid)
             .then(status => res.json(status));
     /**
      * Retrieves all messages sent by a particular user

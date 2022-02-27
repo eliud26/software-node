@@ -18,4 +18,16 @@ export default class UserDao implements UserDaoI {
     async updateUser(uid: string, user: User): Promise<any> {
         return await UserModel.updateOne({_id: uid}, {$set: user});
     }
+    async deleteAllUsers(): Promise<any> {
+        return await UserModel.deleteMany({});
+    }
+    async deleteUsersByUserName(username: string): Promise<any> {
+        return await UserModel.deleteMany({username});
+    }
+    async findUserByCredentials(username: string, password: string): Promise<any> {
+        return await UserModel.findOne({username: username, password: password});
+    }
+    async findUserByUsername(username: string): Promise<any> {
+        return await UserModel.findOne({username});
+    }
 }

@@ -16,6 +16,10 @@ export default class TuitController implements TuitControllerI {
         this.app.delete('/tuits/:tid', this.deleteTuit);
         this.app.put('/tuits/:tid', this.updateTuit);
 
+        //for testing purposes
+        this.app.delete('/tuits/delete', this.deleteTuitByUsernameAndTuit);
+        this.app.delete('tuits/delete/all', this.deleteAllTuits);
+
     }
     findAllTuits = (req: Request, res: Response) =>
         this.tuitDao.findAllTuits()
@@ -35,4 +39,12 @@ export default class TuitController implements TuitControllerI {
     findTuitsByUser = (req: Request, res: Response) =>
         this.tuitDao.findTuitsByUser(req.params.tid)
             .then((tuit: Tuit[]) => res.json(tuit));
+
+    //for testing purposes
+    deleteTuitByUsernameAndTuit = (req: Request, res: Response) =>
+        this.tuitDao.deleteTuitByUsernameAndTuit(req.body.username, req.body.tuit)
+            .then((status: any) => res.json(status));
+    deleteAllTuits = (req: Request, res: Response) =>
+        this.tuitDao.deleteAllTuits()
+        .then((status)=> res.send(status));
 }

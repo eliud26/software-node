@@ -26,11 +26,14 @@ import FollowDao from './daos/FollowDao';
 import MessageDao from './daos/MessageDao';
 import BookmarkDao from './daos/BookmarkDao';
 import mongoose from "mongoose";
-import bodyParser from "body-parser";
+const cors = require('cors');
 
+const ATLAS = "mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const LOCAL = 'mongodb://localhost:27017/tuiter';
 const app = express();
-mongoose.connect('mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
-app.use(bodyParser.json())
+mongoose.connect(ATLAS)
+app.use(express.json())
+app.use(cors());
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
