@@ -27,18 +27,28 @@ export default class TuitController implements TuitControllerI {
     findTuitById = (req: Request, res: Response) =>
         this.tuitDao.findTuitById(req.params.tid)
             .then((tuit: Tuit) => res.json(tuit));
-    createTuit = (req: Request, res: Response) =>
-        this.tuitDao.createTuit(req.body, req.params.uid)
+    createTuit = (req: any, res: any) => {
+        let userId = req.params.uid === "me"
+            && req.session['profile'] ?
+            req.session['profile']._id :
+            req.params.uid;
+        this.tuitDao.createTuit(req.body, userId)
             .then((tuit: Tuit) => res.json(tuit));
+    }
     deleteTuit = (req: Request, res: Response) =>
         this.tuitDao.deleteTuit(req.params.tid)
             .then((status: any) => res.json(status));
     updateTuit = (req: Request, res: Response) =>
         this.tuitDao.updateTuit(req.params.tid, req.body)
             .then((status: any) => res.json(status));
-    findTuitsByUser = (req: Request, res: Response) =>
-        this.tuitDao.findTuitsByUser(req.params.tid)
+    findTuitsByUser = (req: any, res: any) => {
+        let userId = req.params.uid === "me"
+            && req.session["profile"] ?
+            req.session['profile']._id :
+            req.params.uid;
+        this.tuitDao.findTuitsByUser(userId)
             .then((tuit: Tuit[]) => res.json(tuit));
+    }
 
     //for testing purposes
     deleteTuitByUsernameAndTuit = (req: Request, res: Response) =>

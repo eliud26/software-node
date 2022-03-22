@@ -26,17 +26,38 @@ import FollowDao from './daos/FollowDao';
 import MessageDao from './daos/MessageDao';
 import BookmarkDao from './daos/BookmarkDao';
 import mongoose from "mongoose";
+import LikeController from "./controllers/LikeController";
+import LikeDao from "./daos/LikeDao";
 const cors = require('cors');
 
-const ATLAS = "mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const LOCAL = 'mongodb://localhost:27017/tuiter';
+const PROTOCOL = "mongodb+srv";
+const DB_USERNAME = process.env.DB_USERNAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const HOST = "cluster0.m8jeh.mongodb.net";
+const DB_NAME = "myFirstDatabase";
+const DB_QUERY = "retryWrites=true&w=majority";
+const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
+//const LOCAL = 'mongodb://localhost:27017/tuiter';
 const app = express();
-mongoose.connect(ATLAS)
+let sess =  {
+    secret: process.env.SECRET,
+    cookie : {
+        secure: false
+    }
+}
+if(process.env.ENV === 'PRODUCTION') {
+    app.set('trust proxy', 1)
+    sess.cookie.secure = true
+}
+mongoose.connect(connectionString);
 app.use(express.json())
 app.use(cors());
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
+
+app.get('/', (req: Request, res: Response) =>
+    res.send('Welcome!'));
 
 app.get('/add/:a/:b', (req: Request, res: Response) =>
     res.send(req.params.a + req.params.b));
@@ -46,11 +67,13 @@ const tuitDao = new TuitDao();
 const followDao =  new FollowDao();
 const messageDao =  new MessageDao();
 const bookmarkDao =  new BookmarkDao();
+const likeDao = new LikeDao();
 const userController = new UserController(app, userDao);
 const tuitController = new TuitController(app, tuitDao);
 const followController = new FollowController(app, followDao);
 const messageController = new MessageController(app, messageDao);
 const bookmarkController = new BookmarkController(app, bookmarkDao);
+const likeController = new LikeController(app, likeDao, tuitDao)
 
 /**
  * Start a server listening at port 4000 locally

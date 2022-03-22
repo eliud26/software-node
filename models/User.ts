@@ -3,17 +3,17 @@ import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
 
 export default class User {
-    private username: string = '';
-    private password: string = '';
-    private firstName: string | null = null;
-    private lastName: string | null = null;
-    private email: string = '';
-    private profilePhoto: string | null = null;
-    private headerImage: string | null = null;
-    private accountType: AccountType = AccountType.Personal;
-    private maritalStatus: MaritalStatus = MaritalStatus.Single;
-    private biography: string | null = null;
-    private dateOfBirth: Date | null = null;
-    private joined: Date = new Date();
-    private location: Location | null = null;
+    username: string = '';
+    password: string = '';
+    firstName: string | null = null;
+    lastName: string | null = null;
+    email: string = '';
+    profilePhoto: string | null = null;
+    headerImage: string | null = null;
+    accountType: AccountType = AccountType.Personal;
+    maritalStatus: MaritalStatus = MaritalStatus.Single;
+    biography: string | null = null;
+    dateOfBirth: Date | null = null;
+    joined: Date = new Date();
+    location: Location | null = null;
 }

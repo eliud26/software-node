@@ -6,6 +6,9 @@ import Like from "../models/Like";
 export default interface LikeDaoI {
     findAllUsersThatLikedTuit (tid: string): Promise<Like[]>;
     findAllTuitsLikedByUser (uid: string): Promise<Like[]>;
+    findUserLikesTuit(uid: string, tid: string): Promise<Like>;
+    countHowManyLikedTuit(tid: string): Promise<any>;
+    countHowManyUnLikedTuit(tid: string): Promise<any>;
     userUnlikesTuit (tid: string, uid: string): Promise<any>;
     userLikesTuit (tid: string, uid: string): Promise<Like>;
 };
