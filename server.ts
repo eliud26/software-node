@@ -28,7 +28,9 @@ import BookmarkDao from './daos/BookmarkDao';
 import mongoose from "mongoose";
 import LikeController from "./controllers/LikeController";
 import LikeDao from "./daos/LikeDao";
+import AuthenticationController from "./controllers/authController";
 const cors = require('cors');
+const session = require("express-session");
 
 const PROTOCOL = "mongodb+srv";
 const DB_USERNAME = process.env.DB_USERNAME;
@@ -37,10 +39,21 @@ const HOST = "cluster0.m8jeh.mongodb.net";
 const DB_NAME = "myFirstDatabase";
 const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
+const connection = "mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+mongoose.connect(connection);
 //const LOCAL = 'mongodb://localhost:27017/tuiter';
 const app = express();
+app.use(express.json());
+app.use(cors({
+    credentials: true,
+    origin: 'https://software-node-spring22.herokuapp.com'
+}));
+
+const SECRET = 'process.env.SECRET';
 let sess =  {
-    secret: process.env.SECRET,
+    secret: SECRET,
+    saveUninitialized: true,
+    resave: true,
     cookie : {
         secure: false
     }
@@ -49,9 +62,8 @@ if(process.env.ENV === 'PRODUCTION') {
     app.set('trust proxy', 1)
     sess.cookie.secure = true
 }
-mongoose.connect(connectionString);
-app.use(express.json())
-app.use(cors());
+
+app.use(session(sess))
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
@@ -74,6 +86,7 @@ const followController = new FollowController(app, followDao);
 const messageController = new MessageController(app, messageDao);
 const bookmarkController = new BookmarkController(app, bookmarkDao);
 const likeController = new LikeController(app, likeDao, tuitDao)
+const authController = new AuthenticationController(app, userDao);
 
 /**
  * Start a server listening at port 4000 locally
