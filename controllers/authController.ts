@@ -55,7 +55,6 @@ export default class AuthenticationController {
             const password = user.password;
             const existingUser = await this.userDao
                 .findUserByUsername(username);
-
             if (!existingUser) {
                 res.sendStatus(403);
                 return;
@@ -63,7 +62,6 @@ export default class AuthenticationController {
 
             const match = await bcrypt
                 .compare(password, existingUser.password);
-
             if (match) {
                 existingUser.password = '*****';
                 req.session['profile'] = existingUser;

@@ -9,12 +9,12 @@ export default class TuitController implements TuitControllerI {
     constructor(app: Express, tuitDao: TuitDao) {
         this.app = app;
         this.tuitDao = tuitDao;
-        this.app.get('/tuits', this.findAllTuits);
-        this.app.get('/tuits/:tid', this.findTuitById);
-        this.app.get('/users/:tid/tuits', this.findTuitsByUser);
-        this.app.post('/users/:uid/tuits', this.createTuit);
-        this.app.delete('/tuits/:tid', this.deleteTuit);
-        this.app.put('/tuits/:tid', this.updateTuit);
+        this.app.get('/api/tuits', this.findAllTuits);
+        this.app.get('/api/tuits/:tid', this.findTuitById);
+        this.app.get('/api/users/:uid/tuits', this.findTuitsByUser);
+        this.app.post('/api/users/:uid/tuits', this.createTuit);
+        this.app.delete('/api/tuits/:tid', this.deleteTuit);
+        this.app.put('/api/tuits/:tid', this.updateTuit);
 
         //for testing purposes
         this.app.delete('/tuits/delete', this.deleteTuitByUsernameAndTuit);
@@ -28,7 +28,7 @@ export default class TuitController implements TuitControllerI {
         this.tuitDao.findTuitById(req.params.tid)
             .then((tuit: Tuit) => res.json(tuit));
     createTuit = (req: any, res: any) => {
-        let userId = req.params.uid === "me"
+        let userId = req.params.uid === "my"
             && req.session['profile'] ?
             req.session['profile']._id :
             req.params.uid;
@@ -42,11 +42,11 @@ export default class TuitController implements TuitControllerI {
         this.tuitDao.updateTuit(req.params.tid, req.body)
             .then((status: any) => res.json(status));
     findTuitsByUser = (req: any, res: any) => {
-        let userId = req.params.uid === "me"
+        let userId = req.params.uid === "my"
             && req.session["profile"] ?
             req.session['profile']._id :
             req.params.uid;
-        this.tuitDao.findTuitsByUser(userId)
+        this.tuitDao.findAllTuitsByUser(userId)
             .then((tuit: Tuit[]) => res.json(tuit));
     }
 

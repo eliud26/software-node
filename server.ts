@@ -28,6 +28,7 @@ import BookmarkDao from './daos/BookmarkDao';
 import mongoose from "mongoose";
 import LikeController from "./controllers/LikeController";
 import LikeDao from "./daos/LikeDao";
+import DisLikeDao from "./daos/DisLikeDao";
 import AuthenticationController from "./controllers/authController";
 const cors = require('cors');
 const session = require("express-session");
@@ -41,9 +42,7 @@ const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
 const connection = "mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 mongoose.connect(connection);
-//const LOCAL = 'mongodb://localhost:27017/tuiter';
 const app = express();
-app.use(express.json());
 app.use(cors({
     credentials: true,
     origin: 'https://software-node-spring22.herokuapp.com'
@@ -58,12 +57,13 @@ let sess =  {
         secure: false
     }
 }
-if(process.env.ENV === 'PRODUCTION') {
-    app.set('trust proxy', 1)
-    sess.cookie.secure = true
-}
+//if(process.env.ENV === 'PRODUCTION') {
+ //   app.set('trust proxy', 1)
+   // sess.cookie.secure = true
+//}
 
 app.use(session(sess))
+app.use(express.json());
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
@@ -80,12 +80,13 @@ const followDao =  new FollowDao();
 const messageDao =  new MessageDao();
 const bookmarkDao =  new BookmarkDao();
 const likeDao = new LikeDao();
+const dislikeDao = new DisLikeDao();
 const userController = new UserController(app, userDao);
 const tuitController = new TuitController(app, tuitDao);
 const followController = new FollowController(app, followDao);
 const messageController = new MessageController(app, messageDao);
 const bookmarkController = new BookmarkController(app, bookmarkDao);
-const likeController = new LikeController(app, likeDao, tuitDao)
+const likeController = new LikeController(app, likeDao, tuitDao, dislikeDao)
 const authController = new AuthenticationController(app, userDao);
 
 /**

@@ -4,10 +4,14 @@ import TuitDaoI from "../interfaces/TuitDao";
 
 export default class TuitDao implements TuitDaoI {
     async findAllTuits(): Promise<Tuit[]> {
-        return await TuitModel.find();
+        return await TuitModel.find()
+            .sort({'postedOn': -1})
+            .populate("postedBy")
+            .exec();
     }
     async findTuitById(tid: string): Promise<any> {
         return await TuitModel.findById(tid)
+            .sort({'postedOn': -1})
             .populate("postedBy")
             .exec();
     }
@@ -21,8 +25,11 @@ export default class TuitDao implements TuitDaoI {
         return await TuitModel.updateOne({_id: tid}, {$set: tuit});
     }
 
-    async findTuitsByUser(tid: string): Promise<Tuit[]> {
-        return await TuitModel.find({_id: tid });
+    async findAllTuitsByUser(uid: string): Promise<Tuit[]> {
+        return await TuitModel.find({postedBy: uid })
+            .sort({'postedOn': -1})
+            .populate("postedBy")
+            .exec();
     }
 
     async deleteTuitByUsernameAndTuit(username: string, tuit: string): Promise<any> {

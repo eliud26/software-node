@@ -1,7 +1,7 @@
 import Tuit from "../models/Tuit";
 import User from "../models/User";
 
-export default interface Like {
+export default interface DisLike {
     tuit: Tuit,
-    likedBy: User,
+    dislikedBy: User
 };
