@@ -1,5 +1,5 @@
-import DisLikeDaoI from "../interfaces/DisLikeDao";
-import DisLikeModel from "../mongoose/DisLikeModel";
+import DisLikeDaoI from "../interfaces/DislikeDao";
+import DisLikeModel from "../mongoose/DislikeModel";
 import DisLike from '../models/Dislike';
 
 export default class DisLikeDao implements DisLikeDaoI {
