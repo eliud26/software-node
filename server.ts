@@ -28,7 +28,7 @@ import BookmarkDao from './daos/BookmarkDao';
 import mongoose from "mongoose";
 import LikeController from "./controllers/LikeController";
 import LikeDao from "./daos/LikeDao";
-import DisLikeDao from "./daos/DisLikeDao";
+import DisLikeDao from "./daos/DislikeDao";
 import AuthenticationController from "./controllers/authController";
 const cors = require('cors');
 const session = require("express-session");
