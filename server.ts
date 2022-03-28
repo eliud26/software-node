@@ -45,7 +45,7 @@ mongoose.connect(connection);
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: 'https://software-node-spring22.herokuapp.com'
+    origin: 'https://guileless-gnome-2f8c2d.netlify.app'
 }));
 
 const SECRET = 'process.env.SECRET';
