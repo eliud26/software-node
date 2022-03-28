@@ -46,7 +46,8 @@ const app = express();
 app.use(cors({
     credentials: true,
     origin: ['http://localhost:3000', 'https://guileless-gnome-2f8c2d.netlify.app'],
-    exposedHeaders: ['Content-Type', 'Origin', 'Accept', 'X-Requested-With']
+    allowHeaders: ['Content-Type', 'Accept', ],
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
 
 }));
 
