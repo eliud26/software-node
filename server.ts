@@ -44,26 +44,24 @@ const connection = "mongodb+srv://software-engineering:softwareSpring2022@cluste
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'https://guileless-gnome-2f8c2d.netlify.app'],
-    allowHeaders: ['Content-Type', 'Accept', 'Origin'],
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
+    origin: process.env.CORS_ORIGIN,
 }));
-mongoose.connect(connection);
+mongoose.connect(connectionString);
 
 
-const SECRET = 'process.env.SECRET';
+//const SECRET = 'process.env.SECRET';
 let sess =  {
-    secret: SECRET,
+    secret: process.env.EXPRESS_SESSION_SECRET,
     saveUninitialized: true,
     resave: true,
     cookie : {
-        secure: false
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production"
     }
 }
-//if(process.env.ENV === 'PRODUCTION') {
- //   app.set('trust proxy', 1)
-   // sess.cookie.secure = true
-//}
+if(process.env.NODE_ENV === 'production') {
+   app.set('trust proxy', 1)
+}
 
 app.use(session(sess))
 app.use(express.json());
