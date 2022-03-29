@@ -41,15 +41,14 @@ const DB_NAME = "myFirstDatabase";
 const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
 const connection = "mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-mongoose.connect(connection);
-const app = express();
 app.use(cors({
     credentials: true,
     origin: ['http://localhost:3000', 'https://guileless-gnome-2f8c2d.netlify.app'],
     allowHeaders: ['Content-Type', 'Accept', 'Origin'],
     methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
-
 }));
+mongoose.connect(connection);
+const app = express();
 
 const SECRET = 'process.env.SECRET';
 let sess =  {
