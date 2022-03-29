@@ -41,12 +41,14 @@ const DB_NAME = "myFirstDatabase";
 const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
 const connection = "mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+mongoose.connect(connectionString);
+
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN
 }));
-mongoose.connect(connectionString);
+
 
 
 //const SECRET = 'process.env.SECRET';
