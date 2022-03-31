@@ -36,7 +36,7 @@ const session = require("express-session");
 const PROTOCOL = "mongodb+srv";
 const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
-const HOST = "cluster0.m8jeh.mongodb.net";
+const HOST = "cluster0.exbec.mongodb.net";
 const DB_NAME = "myFirstDatabase";
 const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
@@ -49,16 +49,14 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN
 }));
 
-
-
 //const SECRET = 'process.env.SECRET';
-let sess =  {
+let sess = {
     secret: process.env.EXPRESS_SESSION_SECRET,
     saveUninitialized: true,
     resave: true,
-    cookie : {
+    cookie: {
         sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV === "production",
     }
 }
 if(process.env.NODE_ENV === 'production') {
