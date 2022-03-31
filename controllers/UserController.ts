@@ -26,14 +26,14 @@ export default class UserController implements UserControllerI {
     constructor(app: Express, userDao: UserDao) {
         this.app = app;
         this.userDao = userDao;
-        this.app.get('/users', this.findAllUsers);
-        this.app.get('/users/:userid', this.findUserById);
-        this.app.post('/users', this.createUser);
-        this.app.delete('/users/:userid', this.deleteUser);
-        this.app.put('/users/:userid', this.updateUser);
-        this.app.delete("/users", this.deleteAllUsers);
-        this.app.get("/users/username/:username/delete", this.deleteUsersByUsername);
-        this.app.post("/login", this.findUserByCredentials);
+        this.app.get('/api/users', this.findAllUsers);
+        this.app.get('/api/users/:userid', this.findUserById);
+        this.app.post('/api/users', this.createUser);
+        this.app.delete('/api/users/:userid', this.deleteUser);
+        this.app.put('/api/users/:userid', this.updateUser);
+        this.app.delete("/api/users", this.deleteAllUsers);
+        this.app.get("/api/users/username/:username/delete", this.deleteUsersByUsername);
+        this.app.post("/api/login", this.findUserByCredentials);
     }
     /**
     * Retrieves all users from the database and returns an array of users.
