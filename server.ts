@@ -41,17 +41,17 @@ const DB_NAME = "myFirstDatabase";
 const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
 const connection = "mongodb+srv://software-engineering:softwareSpring2022@cluster0.exbec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-mongoose.connect(connectionString);
+mongoose.connect(connection);
 
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN
+    origin: 'http://localhost'
 }));
 
-//const SECRET = 'process.env.SECRET';
+const SECRET = 'process.env.SECRET';
 let sess = {
-    secret: process.env.EXPRESS_SESSION_SECRET,
+    secret: SECRET,
     saveUninitialized: true,
     resave: true,
     cookie: {
@@ -65,6 +65,7 @@ if(process.env.NODE_ENV === 'production') {
 
 app.use(session(sess))
 app.use(express.json());
+
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
